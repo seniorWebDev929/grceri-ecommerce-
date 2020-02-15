@@ -1,0 +1,106 @@
+@import "../abstracts/_mixins.scss";
+
+.search-popup {
+  @include animation(slide-in-bottom .3s);
+  margin: 0px;
+  height: 100%;
+
+  .modal-content {
+    height: 100%;
+
+    .modal-body {
+      background: #fff;
+      .search {
+        display: flex;
+        align-items: center;
+        vertical-align: middle;
+        justify-content: space-between;
+        margin-bottom: 20px;
+  
+        .back {
+          width: 17px;
+          margin-right: 20px;
+        }
+  
+        input {
+          @include font-size(18px);
+          border: none;
+          width: 100%;
+        }
+  
+        .icons  {
+          margin-left: 20px;
+          display: flex;
+          justify-content: space-between;
+          width: 100px;
+          align-items: center;
+  
+          img {
+            width: 20px;
+          }
+        }
+      }
+
+      .recently-viewed {
+        h3 {
+          @include font-size(24px);
+          margin: 0 0 10px 0;
+        }
+
+        ul {
+          display: flex;
+
+          li {
+            width: 20%;
+            text-align: center;
+
+            img {
+              width: 50px;
+            }
+          }
+        }
+      }
+
+      .recently-searched {
+        margin-top: 20px;
+        h3 {
+          @include font-size(20px);
+          margin: 0 0 10px 0;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          a {
+            @include font-size(18px);
+            color: $green;
+            float: right;
+            font-weight: 500;
+            text-transform: uppercase;
+          }
+        }
+
+        ul {
+          li {
+            @include font-size(18px);
+            display: block;
+            margin-top: 15px;
+
+            a {
+              color: #333;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+
+              img {
+                @include transform(rotate(45deg));
+                @include opacity(.5);
+                filter: brightness(0);
+                width: 15px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

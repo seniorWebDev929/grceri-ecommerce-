@@ -1,0 +1,108 @@
+<div class="visible-xs">
+  <div class="grocery__categories__mobile">
+    <h1>All Groceries</h1>
+  </div>
+</div>
+
+<div class="container">
+  <h1 class="hidden-xs">All Groceries</h1>
+  <section 
+    class="grocery__categories hidden-xs" 
+    *ngFor="let a of lists; let i = index">
+
+    <div class="grocery__categories-title">
+      <a class="grocery__categories__header" [routerLink]="['/groceries/', url(a)]">
+        <h2 class="grocery__categories__header-title">{{a.name}}</h2>
+      </a> 
+    </div>
+    <div class="row">
+      <article 
+        class="grocery__categories__cat" 
+        *ngFor="let b of a.categories">
+        <a 
+          (click)="gEvent(b.name)"
+          class="grocery__categories__cat__header" 
+          *ngIf="!b.categories.length" 
+          [routerLink]="['/groceries/', url(a), url(b)]">
+          <h3 class="grocery__categories__cat__header-title">{{b.name}}</h3>
+        </a>
+
+        <ul class="grocery__categories__cat__dropdown collapse" *ngIf="b.categories.length">
+          <li class="grocery__categories__cat__dropdown__item">
+            <a 
+              (click)="gEvent(b.name)"
+              class="grocery__categories__cat__dropdown__item__link" 
+              [routerLink]="['/groceries/', url(a), url(b)]">
+              <h3 class="grocery__categories__cat__dropdown__item__link-title">{{b.name}}
+                <i class="fa fa-angle-down"></i>
+              </h3>
+            </a>
+
+            <ul class="grocery__categories__cat__dropdown__item__sub" *ngIf="b.sub">
+              <li class="grocery__categories__cat__dropdown__item__sub-item" *ngFor="let c of b.sub">
+                <a 
+                  (click)="gEvent(c.name)"
+                  [routerLink]="['/groceries/', url(a), url(b), url(c)]">
+                  {{ c.name }}
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section 
+    class="grocery__categories visible-xs" 
+    *ngFor="let a of lists; let i = index">
+
+      <div class="grocery__categories-title">
+        <a class="grocery__categories__header" [routerLink]="['/groceries/', url(a)]">
+          <h2 class="grocery__categories__header-title">{{a.name}}</h2>
+        </a>
+    
+        <i class="fa" 
+          *ngIf="a.categories.length" 
+          [ngClass]="sort[i + 1] ? 'fa-angle-up': 'fa-angle-down'"
+          (click)="sort[i + 1] = !sort[i + 1]"></i>  
+      </div>
+      <div class="row collapse" [class.show]="sort[i + 1]">
+        <article 
+          class="grocery__categories__cat" 
+          *ngFor="let b of a.categories">
+          <a 
+            (click)="gEvent(b.name)"
+            class="grocery__categories__cat__header" 
+            *ngIf="!b.categories.length" 
+            [routerLink]="['/groceries/', url(a), url(b)]">
+            <h3 class="grocery__categories__cat__header-title">{{b.name}}</h3>
+          </a>
+  
+          <ul class="grocery__categories__cat__dropdown collapse" *ngIf="b.categories.length">
+            <li class="grocery__categories__cat__dropdown__item">
+              <a 
+                (click)="gEvent(b.name)"
+                class="grocery__categories__cat__dropdown__item__link" 
+                [routerLink]="['/groceries/', url(a), url(b)]">
+                <h3 class="grocery__categories__cat__dropdown__item__link-title">{{b.name}}
+                  <i class="fa fa-angle-down"></i>
+                </h3>
+              </a>
+  
+              <ul class="grocery__categories__cat__dropdown__item__sub" *ngIf="b.sub">
+                <li class="grocery__categories__cat__dropdown__item__sub-item" *ngFor="let c of b.sub">
+                  <a 
+                    (click)="gEvent(c.name)"
+                    [routerLink]="['/groceries/', url(a), url(b), url(c)]">
+                    {{ c.name }}
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </article>
+      </div>
+  </section>
+
+</div>

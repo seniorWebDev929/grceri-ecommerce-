@@ -1,0 +1,17 @@
+@import "../../../../../assets/css/abstracts/_variables.scss";
+@import "../../../../../assets/css/abstracts/_mixins.scss";
+
+::ng-deep {
+  .modal-popup {
+    @include animation(slide-in-bottom ease-in .2s);
+    top: 50%;
+    margin-top: -196.5px;
+
+     .modal-content .modal-body p span {
+       @media screen and (max-width: $screen-sm) {
+        margin: 0 0 20px;
+        display: block;
+       }
+     }
+  }
+}

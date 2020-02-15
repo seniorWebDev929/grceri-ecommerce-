@@ -1,0 +1,87 @@
+<div class="visible-xs">
+  <div class="header__mobile">
+    <h1>{{ name }}</h1>
+    <div class="header__mobile-dropdown" dropdown>
+      <a dropdownToggle data-toggle="dropdown" aria-haspopup="true" aria- expanded="true">
+        <img alt="dots" src="assets/svg/dots.svg" />
+      </a>
+      <ul *dropdownMenu class="header__mobile-dropdown-menu dropdown-menu" role="menu" aria-labelledby="menu1">
+        <li role="presentation">
+          <a role="menuitem" tabindex="-1" routerLink="/lists/discover" [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{exact:true}">
+            Discover
+          </a>
+          <a role="menuitem" tabindex="-1" routerLink="/lists" [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{exact:true}">
+            My Lists
+          </a>
+          <a role="menuitem" tabindex="-1" routerLink="/lists/following" [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{exact:true}">
+            Following Lists
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<section class="lists" [class.margin]="name === 'Discover Lists'">
+  <div class="container">
+    <div class="lists__header hidden-xs">
+      <h1>Lists</h1>
+    </div>
+    <div class="lists__btns hidden-xs">
+      <div class="lists__btns__section">
+        <a routerLink="/lists/discover" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"
+          class="lists__btns__section-item">
+          Discover
+        </a>
+        <a routerLink="/lists" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"
+          class="lists__btns__section-item">
+          My Lists
+        </a>
+        <a routerLink="/lists/following" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"
+          class="lists__btns__section-item">
+          Following Lists <span>4</span>
+        </a>
+      </div>
+      <button *ngIf="AS.isAuthenticated() && url === '/lists'" class="lists__btns-btn btn btn-primary small hidden-xs"
+        (click)="MS.openCreateListsModal(config);">Create a List</button>
+    </div>
+    <ng-container *ngIf="lists.length > 0; else skeleton">
+      <div class="row">
+        <ng-container *ngFor="let i of lists">
+          <lists-tile class="col col-md-3 col-sm-4 col-xs-6" [data]="i">
+          </lists-tile>
+        </ng-container>
+      </div>
+    </ng-container>
+    <ng-template #skeleton>
+      <ng-container *ngIf="loading; else empty">
+        <div class="row">
+          <ng-container *ngFor="let i of nitems">
+            <div class="col col-md-3 col-sm-4 col-xs-6">
+              <div class="skeleton-box">
+                <div class="skeleton-square skeleton-margin-bottom-20"></div>
+                <div class="skeleton-bar"></div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+      <ng-template #empty>
+        <div class="lists__empty">
+          <div class="lists__empty-ball">
+            <i class="fa fa-list-ol"></i>
+            <h3>There are no lists.</h3>
+          </div>
+        </div>
+      </ng-template>
+    </ng-template>
+  </div>
+</section>
+
+<div *ngIf="AS.isAuthenticated() && url === '/lists'" class="visible-xs lists_plus"
+  (click)="MS.openCreateListsModal(config);">
+  <img alt="" src="assets/svg/mobile/plus.svg" />
+</div>

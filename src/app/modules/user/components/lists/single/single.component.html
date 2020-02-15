@@ -1,0 +1,756 @@
+<ng-container *ngFor="let i of message">
+  <alert *ngIf="i" [type]="setAlertType(i.type)" (onClosed)="_close(i)" [dismissOnTimeout]="8000" [dismissible]="true">
+    {{ i.value }} <a *ngIf="i.listId !== 0" (click)="undoAddListItem(i.listId, i.linkTitle)">Undo</a>
+    <a *ngIf="i.type === 'undo-following'" (click)="undoAddFollowList($event)">Unfollow list</a>
+  </alert>
+</ng-container>
+
+<div class="container">
+  <div class="hidden-xs visible-sm visible-md visible-lg">
+    <form [formGroup]="editDesktopListGroup">
+    <ng-container *ngIf="single['isOwner']; else dpublic">
+      <ng-container *ngIf="loading; else dloaded">
+        <div class="skeleton-margin-bottom-40"></div>
+        <div class="row">
+          <div class="col col-md-3 col-sm-3">
+            <div class="skeleton-bar skeleton-margin-bottom-20"></div>
+          </div>
+          <div class="col col-md-3 col-md-offset-6 col-sm-3 col-sm-offset-6">
+            <div class="skeleton-bar"></div>
+          </div>
+        </div>
+        <div class="row skeleton-margin-bottom-60">
+          <div class="col col-md-6">
+            <div class="skeleton-bar-40"></div>
+          </div>
+          <div class="col col-md-2 col-md-offset-4">
+            <div class="skeleton-bar-40"></div>
+          </div>
+        </div>
+        <div class="row skeleton-margin-bottom-60">
+          <div class="col col-md-8">
+            <div class="row">
+              <div class="col col-md-8">
+                  <div class="skeleton-bar-20 skeleton-margin-bottom-20"></div>
+                  <div class="skeleton-bar-20 col col-md-5"></div>
+              </div>
+              <div class="col col-md-2 col-md-offset-2">
+                <div class="skeleton-bar-60"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row skeleton-margin-bottom-60">
+          <div class="col col-md-8">
+            <div class="row">
+              <div class="col col-md-8">
+                  <div class="skeleton-bar-20 skeleton-margin-bottom-20"></div>
+                  <div class="skeleton-bar-20 col col-md-5"></div>
+              </div>
+              <div class="col col-md-2 col-md-offset-2">
+                <div class="skeleton-bar-60"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row skeleton-margin-bottom-60">
+          <div class="col col-md-8">
+            <div class="row">
+              <div class="col col-md-8">
+                  <div class="skeleton-bar-20 skeleton-margin-bottom-20"></div>
+                  <div class="skeleton-bar-20 col col-md-5"></div>
+              </div>
+              <div class="col col-md-2 col-md-offset-2">
+                <div class="skeleton-bar-60"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row skeleton-margin-bottom-60">
+          <div class="col col-md-8">
+            <div class="row">
+              <div class="col col-md-8">
+                  <div class="skeleton-bar-20 skeleton-margin-bottom-20"></div>
+                  <div class="skeleton-bar-20 col col-md-5"></div>
+              </div>
+              <div class="col col-md-2 col-md-offset-2">
+                <div class="skeleton-bar-60"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-md-8">
+            <div class="row">
+              <div class="col col-md-8">
+                  <div class="skeleton-bar-20 skeleton-margin-bottom-20"></div>
+                  <div class="skeleton-bar-20 col col-md-5"></div>
+              </div>
+              <div class="col col-md-2 col-md-offset-2">
+                <div class="skeleton-bar-60"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #dloaded>
+        <div class="list__meta">
+          <div class="list__meta-followers">
+            {{ single['followersCount'] !== null ? single['followersCount'] : 0 }} Followers
+          </div>
+          <div class="list__meta-updated">
+            <time [dateTime]="single['updatedAt']">
+              Last Updated {{ single['updatedAt'] | date: 'short' }}
+            </time>
+          </div>
+        </div>
+        <div class="list__header">
+          <h1 *ngIf="!editDesktopListInfo; else editdesktoplisttitle" class="list__header-title">{{ single['title'] }}</h1>
+          <ng-template #editdesktoplisttitle>
+            <input type="text" name="desktopListTitle" minlength="1" maxlength="50" formControlName="desktopListTitle">
+          </ng-template>
+          <div *ngIf="editDesktopListInfo" class="list__header-btns">
+            <button class="btn btn-primary" type="button" (click)="updateDesktopUserListInfo()">Save</button>
+            <button class="btn" type="button" (click)="resetDesktopEditList()">Cancel</button>
+          </div>
+          <div class="dropdown-sort" dropdown>
+            <a dropdownToggle data-toggle="dropdown" aria-haspopup="true" aria- expanded="true">
+              List Options
+              <i class="fa fa-angle-down"></i>
+            </a>
+            <ul *dropdownMenu role="menu" aria-labelledby="menu1">
+              <li role="presentation" *ngIf="single['visibility'] !== null || single['visibility'] !== 'private'">
+                <a [href]="emailContent" role="menuitem" tabindex="-1">Share List</a>
+              </li>
+              <li role="presentation">
+                <a (click)="editInfo($event)" role="menuitem" tabindex="-1">Edit Info</a>
+              </li>
+              <li role="presentation">
+                <a (click)="settingsList()" role="menuitem" tabindex="-1">List Settings</a>
+              </li>
+              <li role="presentation">
+                <a (click)="deleteList()" role="menuitem" tabindex="-1">Delete List</a>
+              </li>
+              <li role="presentation" *ngIf="single['list'].length || checked.length">
+                <a (click)="exportList()" role="menuitem" tabindex="-1">Export List</a>
+              </li>
+            </ul>
+          </div>
+          <div class="list__header-dropdown" dropdown>
+            <a dropdownToggle data-toggle="dropdown" aria-haspopup="true" aria- expanded="true">
+              <img alt="dots" src="assets/svg/dots.svg" />
+            </a>
+            <ul *dropdownMenu class="list__header-dropdown-menu dropdown-menu" role="menu" aria-labelledby="menu1">
+              <li role="presentation">
+                <a role="menuitem" (click)="deleteAllItems($event)" (keydown.enter)="checked.length > 0"
+                  [class.isDisabled]="checked.length <= 1" tabindex="-1">Delete All</a>
+              </li>
+              <li role="presentation">
+                <a role="menuitem" (click)="selectAll($event)" (keydown.enter)="checked.length === 0"
+                  [class.isDisabled]="single['list'].length <= 0" tabindex="-1">Select All</a>
+              </li>
+              <li role="presentation">
+                <a role="menuitem" (click)="deleteCompleted($event)" (keydown.enter)="checked.length > 0"
+                  [class.isDisabled]="checked.length < 1" tabindex="-1">Delete Completed</a>
+              </li>
+              <li role="presentation">
+                <a role="menuitem" (click)="uncheckAll($event)" (keydown.enter)="checked.length > 0"
+                  [class.isDisabled]="checked.length <= 1" tabindex="-1">Uncheck All</a>
+              </li>
+              <li role="presentation">
+                <a role="menuitem" (click)="moveCopyItems($event)" (keydown.enter)="checked.length > 0"
+                  [class.isDisabled]="checked.length === 0" tabindex="-1">Move / Copy Items</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="list__body">
+          <div class="row">
+            <div class="col col-md-8">
+              <div *ngIf="single.description" class="list__body-desc">
+                <ng-container *ngIf="!editDesktopListInfo; else editdesktoplistdescription">
+                  {{ single.description }}
+                </ng-container>
+                <ng-template #editdesktoplistdescription>
+                  <textarea name="desktopListDescription" maxlength="200" formControlName="desktopListDescription"
+                    rows="4" cols="20"></textarea>
+                </ng-template>
+              </div>
+
+              <ng-container *ngIf="single['list'].length || checked.length; else empty">
+                <ul class="list__body__items">
+                  <li class="item" *ngFor="let list of single['list']">
+                    <input [checked]="toggleItemChecked(list.productId)" [id]="list.productId" type="checkbox"
+                      (change)="updateProductList($event, list)" />
+                    <a [routerLink]="['/grocery/', product(list.title), list.productId]">
+                      <strong class="list__body__items__text-title">{{ list.title }}</strong>
+                      <div class="list__body__items__text-details">
+                        <span>${{ list.vendorPrice | number : '1.2' }}</span> {{ list.brand }} - {{ list.vendor }}
+                      </div>
+                    </a>
+                    <img [defaultImage]="load" [lazyLoad]="list.productThumbnailUrl" [alt]="list.title" />
+                  </li>
+                </ul>
+                <div *ngIf="checked.length" class="list__body__items__completed">
+                  <div class="list__body__items__completed-title">
+                    <p (click)="toggleShowCompleted()">{{ hideCompleted ? 'Show': 'Hide' }} {{ checked.length }} completed
+                    </p>
+                  </div>
+                  <ul *ngIf="!hideCompleted">
+                    <li *ngFor="let list of checked">
+                      <input [id]="list.productId" type="checkbox" (change)="removeChecked($event, list.productId)"
+                        checked />
+                      <label [attr.for]="list.productId" class="list__body__items__completed__text">
+                        {{ list.title }}
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+              </ng-container>
+              <ng-template #empty>
+                <div class="list__empty">
+                  <div class="list__empty-ball">
+                    <i class="fa fa-list-ol"></i>
+                    <h3>There are no items yet.</h3>
+                  </div>
+                </div>
+              </ng-template>
+            </div>
+            <div class="col col-md-4">
+              <div *ngIf="!DS.isMobile" class="box-advertisement">
+                <ng-adsense [adClient]="'ca-pub-3783664105032363'" [adFormat]="'auto'" [adSlot]="7797307814">
+                </ng-adsense>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
+    <ng-template #dpublic>
+      <ng-container *ngIf="loading; else dloaded">
+        <div class="skeleton-margin-bottom-40"></div>
+        <div class="row">
+          <div class="col col-md-3 col-sm-3">
+            <div class="skeleton-bar skeleton-margin-bottom-20"></div>
+          </div>
+          <div class="col col-md-3 col-md-offset-6 col-sm-3 col-sm-offset-6">
+            <div class="skeleton-bar"></div>
+          </div>
+        </div>
+        <div class="row skeleton-margin-bottom-60">
+          <div class="col col-md-6">
+            <div class="skeleton-bar-40"></div>
+          </div>
+          <div class="col col-md-2 col-md-offset-4">
+            <div class="skeleton-bar-40"></div>
+          </div>
+        </div>
+        <div class="row skeleton-margin-bottom-60">
+          <div class="col col-md-8">
+            <div class="row">
+              <div class="col col-md-8">
+                  <div class="skeleton-bar-20 skeleton-margin-bottom-20"></div>
+                  <div class="skeleton-bar-20 col col-md-5"></div>
+              </div>
+              <div class="col col-md-2 col-md-offset-2">
+                <div class="skeleton-bar-60"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row skeleton-margin-bottom-60">
+          <div class="col col-md-8">
+            <div class="row">
+              <div class="col col-md-8">
+                  <div class="skeleton-bar-20 skeleton-margin-bottom-20"></div>
+                  <div class="skeleton-bar-20 col col-md-5"></div>
+              </div>
+              <div class="col col-md-2 col-md-offset-2">
+                <div class="skeleton-bar-60"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row skeleton-margin-bottom-60">
+          <div class="col col-md-8">
+            <div class="row">
+              <div class="col col-md-8">
+                  <div class="skeleton-bar-20 skeleton-margin-bottom-20"></div>
+                  <div class="skeleton-bar-20 col col-md-5"></div>
+              </div>
+              <div class="col col-md-2 col-md-offset-2">
+                <div class="skeleton-bar-60"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row skeleton-margin-bottom-60">
+          <div class="col col-md-8">
+            <div class="row">
+              <div class="col col-md-8">
+                  <div class="skeleton-bar-20 skeleton-margin-bottom-20"></div>
+                  <div class="skeleton-bar-20 col col-md-5"></div>
+              </div>
+              <div class="col col-md-2 col-md-offset-2">
+                <div class="skeleton-bar-60"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-md-8">
+            <div class="row">
+              <div class="col col-md-8">
+                  <div class="skeleton-bar-20 skeleton-margin-bottom-20"></div>
+                  <div class="skeleton-bar-20 col col-md-5"></div>
+              </div>
+              <div class="col col-md-2 col-md-offset-2">
+                <div class="skeleton-bar-60"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #dloaded>
+        <div class="list__meta">
+          <div class="list__meta-followers">
+            {{ single['followersCount'] !== null ? single['followersCount'] : 0 }} Followers
+          </div>
+          <div class="list__meta-updated">
+            <time [dateTime]="single['updatedAt']">
+              Last Updated {{ single['updatedAt'] | date: 'short' }}
+            </time>
+          </div>
+        </div>
+        <div class="list__header">
+          <h1 class="list__header-title">{{ single['title'] }}</h1>
+          <div class="dropdown-sort" dropdown>
+            <a dropdownToggle data-toggle="dropdown" aria-haspopup="true" aria- expanded="true">
+              List Options
+              <i class="fa fa-angle-down"></i>
+            </a>
+            <ul *dropdownMenu role="menu" aria-labelledby="menu1">
+              <li role="presentation" *ngIf="single['visibility'] !== null || single['visibility'] !== 'private'">
+                <a [href]="emailContent" role="menuitem" tabindex="-1">Share List</a>
+              </li>
+              <li role="presentation">
+                <a (click)="followList()" role="menuitem" tabindex="-1">Follow List</a>
+              </li>
+              <li role="presentation" *ngIf="single['list'].length">
+                <a (click)="exportList()" role="menuitem" tabindex="-1">Export List</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="list__body">
+          <div class="row">
+            <div class="col col-md-8">
+              <div *ngIf="single.description" class="list__body-desc">
+                {{ single.description }}
+              </div>
+              <ul class="list__body__items"*ngIf="single['list'].length; else empty">
+                <li class="item" *ngFor="let list of single['list']">
+                  <a [routerLink]="['/grocery/', product(list.title), list.productId]">
+                    <strong class="list__body__items__text-title">{{ list.title }}</strong>
+                    <div class="list__body__items__text-details">
+                      <span>${{ list.vendorPrice | number : '1.2' }}</span> {{ list.brand }} - {{ list.vendor }}
+                    </div>
+                  </a>
+                  <img [defaultImage]="load" [lazyLoad]="list.productThumbnailUrl" [alt]="list.title" />
+                </li>
+              </ul>
+              <ng-template #empty>
+                <div class="list__empty">
+                  <div class="list__empty-ball">
+                    <i class="fa fa-list-ol"></i>
+                    <h3>There are no items yet.</h3>
+                  </div>
+                </div>
+              </ng-template>
+            </div>
+            <div class="col col-md-4">
+              <div *ngIf="!DS.isMobile" class="box-advertisement">
+                <ng-adsense [adClient]="'ca-pub-3783664105032363'" [adFormat]="'auto'" [adSlot]="7797307814">
+                </ng-adsense>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ng-template>
+    <div *ngIf="!DS.isMobile" class="horizontal-advertisement">
+      <ng-adsense [adClient]="'ca-pub-3783664105032363'" [adFormat]="'auto'" [adSlot]="3858062809">
+      </ng-adsense>
+    </div>
+    </form>
+  </div>
+
+  <div class="visible-xs hidden-sm hidden-md hidden-lg">
+    <form [formGroup]="editMobileListGroup">
+    <ng-container *ngIf="single['isOwner']; else mpublic">
+      <ng-container *ngIf="loading; else mloaded">
+        <div class="mobile__header">
+          <div class="col col-sm-7 col-xs-7 skeleton-bar-20"></div>
+        </div>
+        <div class="container">
+          <div class="skeleton-margin-bottom-20"></div>
+          <div class="row skeleton-margin-bottom-40">
+            <div class="col col-sm-4 col-xs-4">
+              <div class="skeleton-bar"></div>
+            </div>
+            <div class="col col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4">
+              <div class="skeleton-bar"></div>
+            </div>
+          </div>
+          <div class="row skeleton-margin-bottom-20">
+            <div class="skeleton-bar col col-sm-4 col-xs-4 col-sm-offset-4 col-xs-offset-4"></div>
+          </div>
+          <div class="row skeleton-margin-bottom-40">
+            <div class="col col-sm-6 col-xs-6">
+              <div class="skeleton-box">
+                <div class="skeleton-square skeleton-margin-bottom"></div>
+                <div class="skeleton-bar-20"></div>
+              </div>
+            </div>
+            <div class="col col-sm-6 col-xs-6">
+              <div class="skeleton-box">
+                <div class="skeleton-square skeleton-margin-bottom"></div>
+                <div class="skeleton-bar-20"></div>
+              </div>
+            </div>
+          </div>
+          <div class="row skeleton-margin-bottom-20">
+            <div class="skeleton-bar col col-sm-4 col-xs-4 col-sm-offset-4 col-xs-offset-4"></div>
+          </div>
+          <div class="row">
+            <div class="col col-sm-6 col-xs-6">
+              <div class="skeleton-box">
+                <div class="skeleton-square skeleton-margin-bottom"></div>
+                <div class="skeleton-bar-20"></div>
+              </div>
+            </div>
+            <div class="col col-sm-6 col-xs-6">
+              <div class="skeleton-box">
+                <div class="skeleton-square skeleton-margin-bottom"></div>
+                <div class="skeleton-bar-20"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #mloaded>
+        <div *ngIf="single['title']">
+          <div class="mobile__header">
+            <ng-container *ngIf="listDetails; else details">
+              <h1 (click)="listDetails = !listDetails; message = []"><i
+                  class="fa fa-angle-down"></i>{{ single['list'].length + checked.length }} items
+              </h1>
+              <div class="mobile__header-dropdown" dropdown>
+                <a dropdownToggle data-toggle="dropdown" aria-haspopup="true" aria- expanded="true">
+                  <img alt="dots" src="assets/svg/dots.svg" />
+                </a>
+                <ul *dropdownMenu class="mobile__header-dropdown-menu dropdown-menu" role="menu"
+                  aria-labelledby="menu1">
+                  <li role="presentation">
+                    <a role="menuitem" (click)="deleteAllItems($event)" (keydown.enter)="checked.length > 0"
+                      [class.isDisabled]="checked.length <= 1" tabindex="-1">Delete All</a>
+                  </li>
+                  <li role="presentation">
+                    <a role="menuitem" (click)="selectAll($event)" (keydown.enter)="checked.length === 0"
+                      [class.isDisabled]="single['list'].length <= 0" tabindex="-1">Select All</a>
+                  </li>
+                  <li role="presentation">
+                    <a role="menuitem" (click)="deleteCompleted($event)" (keydown.enter)="checked.length > 0"
+                      [class.isDisabled]="checked.length < 1" tabindex="-1">Delete Completed</a>
+                  </li>
+                  <li role="presentation">
+                    <a role="menuitem" (click)="uncheckAll($event)" (keydown.enter)="checked.length > 0"
+                      [class.isDisabled]="checked.length <= 1" tabindex="-1">Uncheck All</a>
+                  </li>
+                  <li role="presentation">
+                    <a role="menuitem" (click)="moveCopyItems($event)" (keydown.enter)="checked.length > 0"
+                      [class.isDisabled]="checked.length === 0" tabindex="-1">Move / Copy Items</a>
+                  </li>
+                </ul>
+              </div>
+            </ng-container>
+            <ng-template #details>
+              <h1 *ngIf="!editMobileListInfo; else listtitle">{{ single['title'] }}</h1>
+              <ng-template #listtitle>
+                <input type="text" name="listTitle" formControlName="listTitle">
+              </ng-template>
+              <div *ngIf="editMobileListInfo" class="mobile__header-btns">
+                <button class="btn btn-primary" type="button" (click)="updateUserListInfo()">Save</button>
+                <button class="btn" type="button" (click)="resetEditList()">Cancel</button>
+              </div>
+              <div class="mobile__header-dropdown" dropdown>
+                <a dropdownToggle data-toggle="dropdown" aria-haspopup="true" aria- expanded="true">
+                  <img alt="dots" src="assets/svg/dots.svg" />
+                </a>
+                <ul *dropdownMenu class="mobile__header-dropdown-menu dropdown-menu" role="menu"
+                  aria-labelledby="menu1">
+                  <li role="presentation" *ngIf="single['visibility'] !== null || single['visibility'] !== 'private'">
+                    <a (click)="shareMobileList($event)" role="menuitem" tabindex="-1">Share List</a>
+                  </li>
+                  <li role="presentation">
+                    <a (click)="editMobileInfo($event)" role="menuitem" tabindex="-1">Edit Info</a>
+                  </li>
+                  <li role="presentation">
+                    <a (click)="settingsList()" role="menuitem" tabindex="-1">List Settings</a>
+                  </li>
+                  <li role="presentation">
+                    <a (click)="deleteList()" role="menuitem" tabindex="-1">Delete List</a>
+                  </li>
+                  <li role="presentation" *ngIf="single['list'].length || checked.length">
+                    <a (click)="exportList()" role="menuitem" tabindex="-1">Export List</a>
+                  </li>
+                </ul>
+              </div>
+            </ng-template>
+          </div>
+
+          <div class="mobile_plus" (click)="SBS.enableSearchBarPopup()">
+            <img alt="" src="../../../../../assets/svg/mobile/plus.svg" />
+          </div>
+        </div>
+        <ng-container *ngIf="listDetails; else main">
+          <div class="mobile__content mobile__content-details">
+            <div class="mobile__content-container">
+              <div class="mobile__content-actions">
+                <a (click)="BS.openScanner()">
+                  <img src="../../../../../../assets/svg/search/barcode.svg" alt="" />
+                  <span>Scan Item</span>
+                </a>
+                <a (click)="SBS.enableSearchBarPopup()">
+                  <img src="../../../../../../assets/svg/mobile/plus.svg" alt="" />
+                  <span>Add to List</span>
+                </a>
+              </div>
+              <ng-container *ngIf="single['list'].length || checked.length; else empty">
+                <ul class="mobile__content__list">
+                  <li class="item" *ngFor="let list of single['list']">
+                    <input [checked]="toggleItemChecked(list.productId)" [id]="list.productId" type="checkbox"
+                      (change)="updateProductList($event, list)" />
+                    <a [routerLink]="['/grocery/', product(list.title), list.productId]"
+                      class="mobile__content__list__text">
+                      <strong class="mobile__content__list__text-title">{{ list.title }}</strong>
+                      <div class="mobile__content__list__text-details">
+                        <span>${{ list.vendorPrice | number : '1.2' }}</span> {{ list.brand }} -
+                        {{ list.vendor }}
+                      </div>
+                    </a>
+                    <img [defaultImage]="load" [lazyLoad]="list.productThumbnailUrl" [alt]="list.title" />
+                  </li>
+                </ul>
+                <div *ngIf="checked.length" class="mobile__content__list-completed">
+                  <div class="mobile__content__list-completed-title">
+                    <p (click)="toggleShowCompleted()">{{ hideCompleted ? 'Show': 'Hide' }} {{ checked.length }} completed
+                    </p>
+                  </div>
+                  <ul *ngIf="!hideCompleted">
+                    <li *ngFor="let list of checked">
+                      <input [id]="list.productId" type="checkbox" (change)="removeChecked($event, list.productId)"
+                        checked />
+                      <label [attr.for]="list.productId" class="mobile__content__list-completed__text">
+                        {{ list.title }}
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+              </ng-container>
+              <ng-template #empty>
+                <div class="mobile__empty">
+                  <div class="mobile__empty-ball">
+                    <i class="fa fa-list-ol"></i>
+                    <h3>There are no items yet.</h3>
+                  </div>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #main>
+          <div class="mobile__meta" *ngIf="single">
+            <div class="mobile__meta-followers">
+              {{ single['followersCount'] !== null ? single['followersCount'] : 0 }} Followers
+            </div>
+            <div class="mobile__meta-updated">
+              <time [dateTime]="single['updatedAt']">
+                Last Updated {{ single['updatedAt'] | date: 'short' }}
+              </time>
+            </div>
+          </div>
+          <ng-container *ngIf="single.description">
+            <ng-container *ngIf="!editMobileListInfo; else listdescription">
+              <div class="mobile__meta-desc">
+                {{ single.description }}
+              </div>
+            </ng-container>
+            <ng-template #listdescription>
+                <textarea name="listDescription" formControlName="listDescription" rows="8" cols="80"></textarea>
+            </ng-template>
+          </ng-container>
+
+          <div *ngIf="user['favorites']; else favorites" class="mobile__section">
+            <h2 class="mobile__section-title">Favorites</h2>
+            <slider showC="true" multiple="true" count="2">
+              <ng-container *ngFor="let i of user['favorites'];">
+                <ng-container *sliderItem>
+                  <div class="mobile__section__item">
+                    <img class="mobile__section__item-img" [defaultImage]="load" [lazyLoad]="i.productThumbnailUrl" />
+                    <button class="mobile__section__item-btn btn btn-primary" [disabled]="disableAddToList"
+                      (click)="addToList(i)">Add to List</button>
+                  </div>
+                </ng-container>
+              </ng-container>
+            </slider>
+          </div>
+          <ng-template #favorites>
+            <div class="row skeleton-margin-bottom-20">
+              <div class="skeleton-bar col col-sm-4 col-xs-4 col-sm-offset-4 col-xs-offset-4"></div>
+            </div>
+            <div class="row skeleton-margin-bottom-40">
+              <div class="col col-sm-6 col-xs-6">
+                <div class="skeleton-box">
+                  <div class="skeleton-square skeleton-margin-bottom"></div>
+                  <div class="skeleton-bar-20"></div>
+                </div>
+              </div>
+              <div class="col col-sm-6 col-xs-6">
+                <div class="skeleton-box">
+                  <div class="skeleton-square skeleton-margin-bottom"></div>
+                  <div class="skeleton-bar-20"></div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <div *ngIf="user['viewed']; else viewed" class="mobile__section">
+            <h2 class="mobile__section-title">Recently Viewed</h2>
+            <slider showC="true" multiple="true" count="2">
+              <ng-container *ngFor="let i of user['viewed'];">
+                <ng-container *sliderItem>
+                  <div class="mobile__section__item">
+                    <img class="mobile__section__item-img" [defaultImage]="load" [lazyLoad]="i.productThumbnailUrl" />
+                    <button class="mobile__section__item-btn btn btn-primary" [disabled]="disableAddToList"
+                      (click)="addToList(i)">Add to List</button>
+                  </div>
+                </ng-container>
+              </ng-container>
+            </slider>
+          </div>
+          <ng-template #viewed>
+            <div class="row skeleton-margin-bottom-20">
+              <div class="skeleton-bar col col-sm-4 col-xs-4 col-sm-offset-4 col-xs-offset-4"></div>
+            </div>
+            <div class="row">
+              <div class="col col-sm-6 col-xs-6">
+                <div class="skeleton-box">
+                  <div class="skeleton-square skeleton-margin-bottom"></div>
+                  <div class="skeleton-bar-20"></div>
+                </div>
+              </div>
+              <div class="col col-sm-6 col-xs-6">
+                <div class="skeleton-box">
+                  <div class="skeleton-square skeleton-margin-bottom"></div>
+                  <div class="skeleton-bar-20"></div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <div class="mobile__content" *ngIf="single['list']">
+            <div (click)="listDetails = !listDetails; message = []" class="mobile__content-length">
+              {{ single['list'].length + checked.length }} items
+            </div>
+          </div>
+        </ng-template>
+      </ng-template>
+    </ng-container>
+    <ng-template #mpublic>
+      <ng-container *ngIf="loading; else mloaded">
+        <div class="mobile__header">
+          <div class="col col-sm-7 col-xs-7 skeleton-bar-20"></div>
+        </div>
+        <div class="container">
+          <div class="skeleton-margin-bottom-20"></div>
+          <div class="row skeleton-margin-bottom-40">
+            <div class="col col-sm-4 col-xs-4">
+              <div class="skeleton-bar"></div>
+            </div>
+            <div class="col col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4">
+              <div class="skeleton-bar"></div>
+            </div>
+          </div>
+          <ng-container *ngFor="let i of nitems">
+            <div class="row skeleton-margin-bottom-40">
+              <div class="col col-sm-8 col-xs-8">
+                <div class="skeleton-bar skeleton-margin-bottom-20"></div>
+                <div class="skeleton-bar"></div>
+              </div>
+              <div class="col col-sm-3 col-sm-offset-1 col-xs-3 col-xs-offset-1">
+                <div class="skeleton-bar-40"></div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+      <ng-template #mloaded>
+        <div class="mobile__header">
+          <h1>{{ single['title'] }}</h1>
+          <div class="mobile__header-dropdown" dropdown>
+            <a dropdownToggle data-toggle="dropdown" aria-haspopup="true" aria- expanded="true">
+              <img alt="dots" src="assets/svg/dots.svg" />
+            </a>
+            <ul *dropdownMenu class="mobile__header-dropdown-menu dropdown-menu" role="menu" aria-labelledby="menu1">
+              <li role="presentation" *ngIf="single['visibility'] !== null || single['visibility'] !== 'private'">
+                <a (click)="shareMobileList($event)" role="menuitem" tabindex="-1">Share List</a>
+              </li>
+              <li role="presentation">
+                <a (click)="followList($event, single['title'])" [class.isDisabled]="followingLists === undefined" role="menuitem" tabindex="-1">{{followListTitle ? 'Follow List' : 'Unfollow List'}}</a>
+              </li>
+              <li role="presentation" *ngIf="single['list'].length">
+                <a (click)="exportList()" role="menuitem" tabindex="-1">Export List</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="mobile__content-details mobile__content-public">
+          <div class="mobile__meta-public" *ngIf="single">
+            <div class="mobile__meta-followers">
+              {{ single['followersCount'] !== null ? single['followersCount'] : 0 }} Followers
+            </div>
+            <div class="mobile__meta-updated">
+              <time [dateTime]="single['updatedAt']">
+                Last Updated {{ single['updatedAt'] | date: 'short' }}
+              </time>
+            </div>
+          </div>
+          <div *ngIf="single['description']" class="mobile__meta-desc">
+            {{ single['description'] }}
+          </div>
+          <div class="mobile__content-container">
+            <ul class="mobile__content__list" *ngIf="single['list'].length || checked.length; else empty">
+              <li class="item" *ngFor="let list of single['list']">
+                <a [routerLink]="['/grocery/', product(list.title), list.productId]">
+                  <strong class="mobile__content__list__text-title">{{ list.title }}</strong>
+                  <div class="mobile__content__list__text-details">
+                    <span>${{ list.vendorPrice | number : '1.2' }}</span> {{ list.brand }} - {{ list.vendor }}
+                  </div>
+                </a>
+                <img [defaultImage]="load" [lazyLoad]="list.productThumbnailUrl" [alt]="list.title" />
+              </li>
+            </ul>
+            <ng-template #empty>
+              <div class="mobile__empty">
+                <div class="mobile__empty-ball">
+                  <i class="fa fa-list-ol"></i>
+                  <h3>There are no items yet.</h3>
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </ng-template>
+    </ng-template>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,109 @@
+@import "../../../../../../assets/css/abstracts/_mixins.scss";
+@import "../../../../../../assets/css/abstracts/_variables.scss";
+
+.lists {    
+  margin-bottom: 30px;
+
+  @media screen and (max-width: $screen-xs) {
+    margin-bottom: 15px;
+  }
+
+  &__card {
+    @include box-shadow(0 0 3px 0 rgba(57, 73, 76, 0.1));
+    @include border-radius(5px);
+    border: 1px solid #e7e7ea;
+    display: block;
+    text-align: center;
+    padding: 10px;
+    overflow: hidden;
+    position: relative;
+
+    &__header {
+      @include font-size(18px);
+      margin: 12px 0 0;
+
+      @media screen and (max-width: $screen-sm) {
+        @include font-size(14px); 
+      }
+
+      &-title {
+        @include font-size(20px);
+        font-family: 'AB', sans-serif;
+        text-transform: capitalize;
+        font-weight: 400;
+        margin: 0;
+        max-width: 85%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &:visited,
+        &:active {
+          color: #555;
+        }
+
+        &:hover {
+          color: $green;
+        }
+
+        @media screen and (max-width: $screen-sm) {
+          @include font-size(16px); 
+        }
+      }
+
+      span {
+        font-family: 'AL', sans-serif;
+        display: block;
+        font-weight: 400;
+        color: #999;
+      }
+
+      &__user {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+
+        img {
+          @include border-radius(50px);
+          width: 40px;
+          height: 40px;
+          margin-right: 10px;
+
+          @media screen and (max-width: $screen-sm) {
+            width: 25px;
+            height: 25px;  
+          }
+        }
+      }
+    }
+
+    &-img {
+      width: 100%;
+    }
+
+    &-count {
+      @include font-size(20px);
+      position: absolute;
+      height: 50px;
+      width: 100px;
+      bottom: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.3);
+      line-height: 1.25em;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      i {
+        margin-right: 10px;
+      }
+
+      @media screen and (max-width: $screen-sm) {
+        @include font-size(16px);
+        width: 60px;
+        height: 40px;
+      }
+    }
+  }
+}

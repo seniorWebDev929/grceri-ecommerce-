@@ -1,0 +1,70 @@
+.dropdown-sort {
+  @include border-radius(3px);
+  @include font-size(14px);
+  @include transition(all 0.2s ease-in-out);
+  background-color: #fafafa;
+  border: solid 1px #e0e7ee;
+  cursor: pointer;
+  display: block;
+  outline: none;
+  position: relative;
+  user-select: none;
+  white-space: nowrap;
+
+  a {
+    padding: 5px 30px 5px 10px;
+    display: block;
+
+    i {
+      @include font-size(12px);
+      position: absolute;
+      right: 10px;
+      top: 8px;
+    }
+  }
+
+  &:hover {
+    background: #f8f8f8;
+
+    a {
+      color: #333;
+    }
+  }
+
+  &.open {
+    @include border-radius(5px 5px 0 0);
+    border: solid 1px #ddd;
+
+    a {
+      i {
+        @include rotate(180);
+      }
+    }
+
+    ul {
+      @include border-radius(0 0 5px 5px);
+      background: #fafafa;
+      border: solid 1px #ddd;
+      display: block;
+      z-index: 1;
+
+      a {
+        @include transition(all 0.2s ease-in-out);
+        color: #333;
+        padding: 5px 10px;
+
+        &:hover,
+        &.active {
+          background: #eee;
+        }
+      }
+    }
+  }
+
+  ul {
+    position: absolute;
+    left: -1px;
+    right: -1px;
+    display: none;
+  }
+}

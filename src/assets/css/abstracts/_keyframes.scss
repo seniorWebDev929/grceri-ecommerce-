@@ -1,0 +1,209 @@
+@import "_mixins.scss";
+
+@mixin keyframes($animation-name) {
+  @-webkit-keyframes #{$animation-name} {
+    @content;
+  }
+
+  @-moz-keyframes #{$animation-name} {
+    @content;
+  }
+
+  @keyframes #{$animation-name} {
+    @content;
+  }
+}
+
+@include keyframes(indeterminate) {
+  0% {
+    left: -35%;
+    right: 100%;
+  }
+
+  60% {
+    left: 100%;
+    right: -90%;
+  }
+
+  100% {
+    left: 100%;
+    right: -90%;
+  }
+}
+
+@keyframes slide-in--down {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/**
+ * ----------------------------------------
+ * animation slide-in-bottom
+ * ----------------------------------------
+ */
+ @-webkit-keyframes slide-in-top {
+  0% {
+    @include transform(translateY(-100%));
+    @include opacity(0);
+  }
+
+  100% {
+    @include transform(translateY(0));
+    @include opacity(1);
+  }
+}
+
+@keyframes slide-in-top {
+  0% {
+    @include transform(translateY(-100%));
+    @include opacity(0);
+  }
+
+  100% {
+    @include transform(translateY(0));
+    @include opacity(1);
+  }
+}
+
+/**
+ * ----------------------------------------
+ * animation slide-in-bottom
+ * ----------------------------------------
+ */
+@-webkit-keyframes slide-in-bottom {
+  0% {
+    @include transform(translateY(100%));
+    @include opacity(0);
+  }
+
+  100% {
+    @include transform(translateY(0));
+    @include opacity(1);
+  }
+}
+
+@keyframes slide-in-bottom {
+  0% {
+    @include transform(translateY(100%));
+    @include opacity(0);
+  }
+
+  100% {
+    @include transform(translateY(0));
+    @include opacity(1);
+  }
+}
+
+/**
+ * ----------------------------------------
+ * animation slide-in-left
+ * ----------------------------------------
+ */
+@-webkit-keyframes slide-in-left {
+  0% {
+    @include transform(translateX(-100%));
+    @include opacity(0);
+  }
+
+  100% {
+    @include transform(translateX(0));
+    @include opacity(1);
+  }
+}
+
+@keyframes slide-in-left {
+  0% {
+    @include transform(translateX(-100%));
+    @include opacity(0);
+  }
+
+  100% {
+    @include transform(translateX(0));
+    @include opacity(1);
+  }
+}
+
+/**
+ * ----------------------------------------
+ * animation slide-out-left
+ * ----------------------------------------
+ */
+@-webkit-keyframes slide-out-left {
+  0% {
+    @include transform(translateX(0));
+    @include opacity(1);
+  }
+
+  100% {
+    @include transform(translateX(-100%));
+    @include opacity(0);
+  }
+}
+
+@keyframes slide-out-left {
+  0% {
+    @include transform(translateX(0));
+    @include opacity(1);
+  }
+
+  100% {
+    @include transform(translateX(-100%));
+    @include opacity(0);
+  }
+}
+
+
+/**
+ * ----------------------------------------
+ * animation fade-in
+ * ----------------------------------------
+ */
+@-webkit-keyframes fade-in {
+  0% {
+    @include opacity(0);
+  }
+
+  100% {
+    @include opacity(1);
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    @include opacity(0);
+  }
+
+  100% {
+    @include opacity(1);
+  }
+}
+
+/**
+ * ----------------------------------------
+ * animation fade-out
+ * ----------------------------------------
+ */
+@-webkit-keyframes fade-out {
+  0% {
+    @include opacity(1);
+  }
+
+  100% {
+    @include opacity(0);
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    @include opacity(1);
+  }
+
+  100% {
+    @include opacity(0);
+  }
+}

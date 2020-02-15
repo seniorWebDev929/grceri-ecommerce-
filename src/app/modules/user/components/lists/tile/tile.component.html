@@ -1,0 +1,19 @@
+<div class="lists">
+  <a class="lists__card" [routerLink]="['/lists/', data.id]">
+    <img class="lists__card-img" [defaultImage]="load" [lazyLoad]="data.productThumbnailUrl ? data.productThumbnailUrl : data.productImage" />
+    <div class="lists__card-count">
+      <i class="fa fa-bookmark" aria-hidden="true"></i>
+      {{ data.productCount }}
+    </div>
+  </a>
+  <div class="lists__card__header">
+    <a [routerLink]="['./', data.id]" class="lists__card__header-title">{{ data.title }}</a>
+    <span *ngIf="data.visibility">{{ data.visibility !== null ? data.visibility : 'Non-Public' }}</span>
+    <div *ngIf="data.user" class="lists__card__header__user">
+      <img *ngIf="data.user.image" [defaultImage]="load" [lazyLoad]="data.user.image" [alt]="data.user.image" />
+      <span *ngIf="data.user.firstName || data.user.lastName" class="lists__card__header__user-name">
+        {{data.user.firstName}} {{data.user.lastName.charAt(0)}}.
+      </span>
+    </div>
+  </div>
+</div>

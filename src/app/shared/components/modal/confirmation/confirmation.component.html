@@ -1,0 +1,9 @@
+<ng-template #confirmation>
+    <div class="modal-body">
+     {{text}}
+    </div>
+    <div class="modal-footer">
+      <button type="submit" (click)="confirmAction()" class="btn btn-primary">Yes</button>
+      <button type="button" (click)="cancelAction()" class="btn">Cancel</button>
+    </div>
+</ng-template>

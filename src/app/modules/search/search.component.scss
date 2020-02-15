@@ -1,0 +1,276 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the header of the site/application.
+// -----------------------------------------------------------------------------
+
+//  BEM - Block Element Modifier
+//  This is how our code is structured. Please follow this layout and format.
+//  More Info: https://css-tricks.com/bem-101/
+//
+//  .steps {
+//	    &__item {		
+//		    &--first {}
+//		    &--last {}
+//		    &--active {}
+//		    &--done {}
+//	    }
+//	    &__link {}
+//  }
+
+@import "../../../assets/css/abstracts/_mixins.scss";
+@import "../../../assets/css/abstracts/_variables.scss";
+
+:host {
+  min-height: 500px;
+
+  @media screen and (max-width: $screen-sm) {
+    @include animation(slide-in-bottom .6s);  
+  }
+
+  .cat {
+    padding: 15px 0;
+    background: #fafafa;
+    border-top: 1px solid #f3f3f3;
+    border-bottom: 1px solid #f3f3f3;
+  }
+
+  .content {
+    min-height: 1800px;
+    border-left: 1px solid #f3f3f3;
+    padding-top: 10px;
+    padding-left: 0px;
+
+    @media (max-width: $screen-sm) {
+      padding: 0px;
+      border: none;
+
+      &.mobile-loaded-margin {
+        padding-top: 52px;
+      }
+    }
+    
+    @media (max-width: $screen-xs) {
+      min-height: inherit;
+    }
+
+    .search-results {
+      display: flex;
+
+      @media (max-width: $screen-md) {
+        padding-top: 20px;
+      }
+
+      &__items {
+        min-height: 500px;
+        width: 100%;
+
+        @media (min-width: $screen-md) {
+          padding-left: 20px;
+        }
+
+        &-item {
+          display: inline-flex;
+          margin-bottom: 20px;
+          width: 20%;
+          border-bottom: 1px solid #f3f3f3;
+          padding: 16px 4px;
+
+          @media (max-width: $screen-lg) {
+            width: 25%;
+          }
+
+          @media (max-width: $screen-md) {
+            width: 33.33%;
+            padding-top: 0px;
+            padding-bottom: 10px;
+          }
+        }
+      }
+
+      &__none {
+        min-height: 1000px;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+
+        @media (max-width: $screen-xs) {
+          min-height: 60vh;
+
+          h4 {
+            @include font-size(20px);
+          }
+
+          span {
+            @include font-size(16px);
+            display: block;
+            padding: 0 40px;
+          }
+        }
+
+        &-item {
+          text-align: center;
+
+          img {
+            height: 50px;
+          }
+
+          h4 {
+            margin: 40px 0 5px;
+          }
+
+          span {
+            font-family: 'AL', serif;
+            color: #777;
+          }
+        }
+      }
+    }
+
+    .filters {
+      @include font-size(14px);
+      padding: 0 0 10px 0;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #f3f3f3;
+
+      .count {
+        padding-left: 20px;
+
+        @media (max-width: $screen-sm) {
+          padding: 0px;
+        }
+      }
+
+      .filter {
+        text-align: right;
+      }
+    }
+
+    .advertisement {
+      margin: 32px 0;
+      padding: 0 25px;
+    }
+  }
+
+  .sidebar {
+    padding-left: 0px;
+  }
+
+  .mobile-filter {
+    position: relative;
+
+    > i {
+      @include animation(fade-in ease-in .2s);
+      @include border-radius(100%);
+      @include box-shadow(0 1px 5px 0 rgba(57, 73, 76, 0.35));
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      padding: 15px;
+      z-index: 1;
+      background: $green;
+      cursor: pointer;
+      height: 40px;
+      color: #fff;
+
+      @media screen and (max-width: $screen-xs) {
+        bottom: 55px;
+      }
+    }
+
+    .mobile-sidebar {
+      display: none;
+      position: fixed;
+      top: 50%;
+      right: 0;
+      overflow-y: scroll;
+      height: 50%;
+      background: #fff;
+      left: 0;
+
+      .mobile-title {
+        @include font-size(18px);
+        padding: 10px 20px;
+        background: #fafafa;
+        display: flex;
+        justify-content: space-between;
+        vertical-align: middle;
+        align-items: center;
+        border-bottom: 1px solid #ddd;
+
+        .mobile-buttons {
+          align-items: center;
+          display: flex;
+          justify-content: space-between;
+
+          button {
+            font-family: 'AL', sans-serif;
+            font-weight: 400;
+            text-transform: uppercase;  
+
+            &:first-child {
+              border: none;
+              background: transparent;
+            }
+          }
+
+          .btn {
+            line-height: 40px;
+            margin-left: 20px;
+          }
+        }
+      }
+    }
+
+    &.visible {
+      z-index: 2;
+
+      .mobile-sidebar {
+        @include animation(slide-in-bottom ease-in .2s);
+        display: block;
+      }
+
+      .fa-filter {
+        display: none;
+      }
+    }
+  }
+
+  .mobile-bg {
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .mobile-search {
+    padding-top: 20px;
+  }
+
+  .mobile-applied__filters {
+    padding: 10px 0 0;
+    border-bottom: 1px solid #eee;
+  
+    &-filter {
+      @include box-shadow(0 0px 2px 0 rgba(57, 73, 76, 0.35));
+      @include border-radius(3px);
+      padding: 5px 10px;
+      display: inline-block;
+      margin: 0 0 10px 10px;
+      background: $green;
+      color: #fff;
+  
+      img {
+        filter: invert(1);
+        margin-left: 10px;
+      }
+    }
+  }
+
+  @media (max-width: $screen-xs) {
+    display: block;
+  }
+ 
+}

@@ -1,0 +1,20 @@
+<ng-template #select>
+  <form [formGroup]="form">
+    <div class="modal-header">
+      <h1>Select a List</h1>
+    </div>
+    <div class="modal-body">
+      <select class="form-control" formControlName="select">
+        <option value="0" [selected]="this.SLS.selectedShoppingList === 0">Select a list</option>
+        <ng-container *ngIf="SLS.shoppingList">
+          <option *ngFor="let list of SLS.shoppingList" [value]="list.id">{{list.title}}</option>
+        </ng-container>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-footer-cancel" (click)="MS.close()">Cancel</button>
+      <button class="modal-footer-btn btn-primary" type="submit" [disabled]="!form.valid || updating"
+        (click)="submit()">Add</button>
+    </div>
+  </form>
+</ng-template>

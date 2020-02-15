@@ -1,0 +1,18 @@
+<ngx-loading-bar [includeSpinner]="false" color="#48B56A"></ngx-loading-bar>
+
+<header-app *ngIf="isHeaderURLS(router.url)">
+</header-app>
+
+<router-outlet></router-outlet>
+
+<footer-app *ngIf="isFooterURLS(router.url)">
+</footer-app>
+
+<mobile-barcode *ngIf="mobile" class="visible-xs"></mobile-barcode>
+<mobile-voice *ngIf="mobile" class="visible-xs"></mobile-voice>
+<mobile-search *ngIf="mobile" class="visible-xs"></mobile-search>
+
+<lists-create></lists-create>
+<lists-select></lists-select>
+<!-- <message-popup></message-popup> -->
+<confirmation-popup></confirmation-popup>

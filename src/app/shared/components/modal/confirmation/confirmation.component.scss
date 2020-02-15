@@ -1,0 +1,44 @@
+@import "../../../../../assets/css/abstracts/_variables.scss";
+@import "../../../../../assets/css/abstracts/_mixins.scss";
+
+::ng-deep {
+  .modal-confirm {
+    @include animation(slide-in-bottom ease-in .2s);
+    width: 400px;
+    top: 50%;
+    margin-top: -70.5px;
+    margin-left: auto;
+    margin-right: auto;
+
+    .modal-body {
+      @include font-size(18px);
+      padding: 20px;
+      font-family: 'AM', sans-serif;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      button {
+          font-weight: 400;
+        &.btn {
+          font-family: 'AL', sans-serif;
+        }
+  
+        &.btn-primary {
+          font-family: 'AM', sans-serif;
+        }
+
+        &:first-child {
+          margin-right: 10px;
+        }
+
+        &:last-child {
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+}

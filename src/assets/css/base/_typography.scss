@@ -1,0 +1,81 @@
+/**
+ * Basic typography style for copy text
+ */
+
+textarea,
+input,
+button {
+  outline: none;
+}
+
+label {
+  color: #484848;
+  font-weight: 600;
+  display: block;
+  max-width: 635px;
+  padding-bottom: .8em;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="file"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.faux-file {
+  @include border-radius(0px);
+  @include font-size(18px);
+  @include box-shadow(none);
+  font-family: 'AL', sans-serif;
+  border: none;
+  display: inline-block;
+  padding: 10px 0;
+  min-width: 50px;
+  width: 100%;
+  height: inherit;
+  background-color: $white;
+  border-bottom: 1px solid #d0d0d0;
+  resize: vertical;
+
+  &:focus {
+    @include box-shadow(none);
+  }
+}
+
+.input-style {
+  padding: 17px 15px;
+  border: 2px solid #d0d0d0;
+}
+
+.form-group {
+  .list-group {
+    @include border-radius(3px);
+    border: 2px solid #d0d0d0;
+
+    .list-group-item {
+      padding: 0px;
+
+      select,
+      input {
+        @include box-shadow(none);
+        @include border-radius(0px);
+        padding: 0px 20px;
+        border: none;
+      }
+    }
+  }
+}

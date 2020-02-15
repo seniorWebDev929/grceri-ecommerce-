@@ -1,0 +1,81 @@
+@import '../abstracts/mixins';
+@import "../abstracts/_variables.scss";
+@import "../abstracts/_keyframes.scss";
+
+.fp-loader {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  width: 100%;
+  background: $green;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+
+  img {
+    filter: brightness(0) invert(.91);
+    width: 40px;
+  }
+
+  .progress {
+    @include border-radius(4px);
+    position: relative;
+    height: 3px;
+    display: block;
+    width: 90px;
+    background-color: lighten($green, 40%);
+    background-clip: padding-box;
+    margin: 20px 0 1rem 0;
+    overflow: hidden;
+
+    .indeterminate {
+      background-color: darken($green, 12%);
+
+      &:before {
+        content: '';
+        position: absolute;
+        background-color: inherit;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        will-change: left, right;
+        @include animation(indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite);
+
+      }
+
+      &:after {
+        content: '';
+        position: absolute;
+        background-color: inherit;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        will-change: left, right;
+        @include animation(indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite);
+        animation-delay: 1.15s;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $screen-sm) {
+  app-root {
+    &#root {
+      @include transform(translateY(100%));
+      @include opacity(0);
+      position: fixed;
+      bottom: 0px;
+      left: 0px;
+      top: 0px;
+      right: 0px;
+      background: #fff;
+      z-index: 2;
+    }
+
+    &.loaded {
+      @include animation(.3s ease-in-out 1.5s slide-in-bottom forwards);
+    }
+  }
+}
