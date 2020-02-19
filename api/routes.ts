@@ -9,7 +9,7 @@ import UserRoutes from './routes/user.route';
 import errorHandler from './misc/error-handler';
 
 // ROUTER
-export const routes = new Router();
+export const routes = Router();
 
 // REFERENCE
 routes.use('/misc', MiscRoutes);

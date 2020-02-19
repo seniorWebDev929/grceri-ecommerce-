@@ -4,7 +4,7 @@ Router,
 
 import MiscAPI from '../functions/misc.functions';
 
-const routes = new Router();
+const routes = Router();
 
 routes.route('/assets/:asset').get(MiscAPI.assets);
 

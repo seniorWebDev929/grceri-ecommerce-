@@ -4,7 +4,7 @@ Router,
 
 import SearchAPI from '../functions/search.functions';
 
-const routes = new Router();
+const routes = Router();
 
 routes.route('/sidebar').get(SearchAPI.getSearchPageSidebar);
 

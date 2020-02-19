@@ -4,7 +4,7 @@ Router,
 
 import TransactionsAPI from '../functions/transactions.functions';
 
-const routes = new Router();
+const routes = Router();
 
 routes.route('/:uid')
 .get(TransactionsAPI.getTransactions)

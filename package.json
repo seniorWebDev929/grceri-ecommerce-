@@ -65,6 +65,7 @@
     "@angular/compiler-cli": "^8.2.14",
     "@angular/language-service": "8.2.14",
     "@ngx-lite/json-ld": "^0.6.2",
+    "@types/cors": "^2.8.6",
     "@types/lodash": "^4.14.149",
     "@types/node": "^8.10.59",
     "@types/webappsec-credential-management": "^0.5.1",

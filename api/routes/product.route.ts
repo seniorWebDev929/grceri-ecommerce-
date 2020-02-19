@@ -4,7 +4,7 @@ import {
 
 import ProductsAPI from '../functions/products.functions';
 
-const routes = new Router();
+const routes = Router();
 
 routes.route('/').get(ProductsAPI.getProducts);
 

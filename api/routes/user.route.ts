@@ -4,7 +4,7 @@ Router,
 
 import UsersAPI from '../functions/users.functions';
 
-const routes = new Router();
+const routes = Router();
 
 routes.route('/email/:email').get(UsersAPI.getEmail);
 
